@@ -1,0 +1,126 @@
+[Back to Index](../README.md)
+
+---
+
+# Database Schema
+
+This document provides a visual representation of the Chinook database schema and describes the relationships between its entities.
+
+## Entity Relationship Diagram
+
+Below is the Mermaid diagram representing the database structure:
+
+```mermaid
+classDiagram
+direction BT
+class album {
+   varchar(160) title
+   integer artist_id
+   integer album_id
+}
+class artist {
+   varchar(120) name
+   integer artist_id
+}
+class artist_docs {
+   jsonb body
+   integer id
+}
+class customer {
+   varchar(40) first_name
+   varchar(20) last_name
+   varchar(80) company
+   varchar(70) address
+   varchar(40) city
+   varchar(40) state
+   varchar(40) country
+   varchar(10) postal_code
+   varchar(24) phone
+   varchar(24) fax
+   varchar(60) email
+   integer support_rep_id
+   integer customer_id
+}
+class employee {
+   varchar(20) last_name
+   varchar(20) first_name
+   varchar(30) title
+   integer reports_to
+   timestamp birth_date
+   timestamp hire_date
+   varchar(70) address
+   varchar(40) city
+   varchar(40) state
+   varchar(40) country
+   varchar(10) postal_code
+   varchar(24) phone
+   varchar(24) fax
+   varchar(60) email
+   integer employee_id
+}
+class genre {
+   varchar(120) name
+   integer genre_id
+}
+class invoice {
+   integer customer_id
+   timestamp invoice_date
+   varchar(70) billing_address
+   varchar(40) billing_city
+   varchar(40) billing_state
+   varchar(40) billing_country
+   varchar(10) billing_postal_code
+   numeric(10,2) total
+   integer invoice_id
+}
+class invoice_line {
+   integer invoice_id
+   integer track_id
+   numeric(10,2) unit_price
+   integer quantity
+   integer invoice_line_id
+}
+class media_type {
+   varchar(120) name
+   integer media_type_id
+}
+class playlist {
+   varchar(120) name
+   integer playlist_id
+}
+class playlist_track {
+   integer playlist_id
+   integer track_id
+}
+class track {
+   varchar(200) name
+   integer album_id
+   integer media_type_id
+   integer genre_id
+   varchar(220) composer
+   integer milliseconds
+   integer bytes
+   numeric(10,2) unit_price
+   integer track_id
+}
+
+album  -->  artist : artist_id
+customer  -->  employee : support_rep_id -> employee_id
+employee  -->  employee : reports_to -> employee_id
+invoice  -->  customer : customer_id
+invoice_line  -->  invoice : invoice_id
+invoice_line  -->  track : track_id
+playlist_track  -->  playlist : playlist_id
+playlist_track  -->  track : track_id
+track  -->  album : album_id
+track  -->  genre : genre_id
+track  -->  media_type : media_type_id
+```
+
+## Key Relationships
+
+- **Artists & Albums**: Each album is associated with a single artist via `artist_id`.
+- **Invoices**: Invoices are linked to customers. Each invoice consists of multiple `invoice_line` items.
+- **Tracks**: Tracks are the central entity, linked to albums, genres, and media types.
+- **Playlists**: Playlists and tracks have a many-to-many relationship, managed by the `playlist_track` join table.
+- **Employees**: Employees have a self-referencing relationship for reporting structures (`reports_to`).

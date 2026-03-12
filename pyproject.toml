@@ -1,0 +1,25 @@
+[project]
+name = "chinook-pydantic-repository"
+version = "0.1.0"
+description = "A clean three-tier architecture for interacting with the Chinook database using Python, Pydantic, and the Repository Pattern."
+readme = "README.md"
+authors = [
+    { name = "Paul Wood", email = "paulowoody@users.noreply.github.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "psycopg-pool>=3.3.0",
+    "psycopg[binary]>=3.3.3",
+    "pydantic>=2.12.5",
+]
+
+[project.urls]
+Repository = "https://github.com/paulowoody/chinook-pydantic-repository"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+]
