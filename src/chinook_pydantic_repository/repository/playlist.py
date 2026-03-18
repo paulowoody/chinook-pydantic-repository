@@ -4,9 +4,9 @@ This module defines the PlaylistRepository class.
 
 from typing import Union
 from psycopg_pool import ConnectionPool
-from models.playlist import Playlist
+from chinook_pydantic_repository.models.playlist import Playlist
 from .base import BasePgRepository
-from database.session import DatabasePoolManager
+from chinook_pydantic_repository.database.session import DatabasePoolManager
 
 class PlaylistRepository(BasePgRepository[Playlist]):
     """

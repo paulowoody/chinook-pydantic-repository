@@ -4,9 +4,9 @@ This module defines the InvoiceLineRepository class.
 
 from typing import Union
 from psycopg_pool import ConnectionPool
-from models.invoice_line import InvoiceLine
+from chinook_pydantic_repository.models.invoice_line import InvoiceLine
 from .base import BasePgRepository
-from database.session import DatabasePoolManager
+from chinook_pydantic_repository.database.session import DatabasePoolManager
 
 class InvoiceLineRepository(BasePgRepository[InvoiceLine]):
     """

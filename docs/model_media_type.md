@@ -20,8 +20,8 @@ The `MediaType` model represents a media format (MPEG, AAC, etc.) for tracks.
 ### Example Usage
 
 ```python
-from database import DatabasePoolManager
-from repository import MediaTypeRepository
+from chinook_pydantic_repository.database import DatabasePoolManager
+from chinook_pydantic_repository.repository import MediaTypeRepository
 
 pool = DatabasePoolManager.get_instance(DB_URL)
 repo = MediaTypeRepository(pool)

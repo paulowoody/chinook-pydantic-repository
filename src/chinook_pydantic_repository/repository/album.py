@@ -5,9 +5,9 @@ This module defines the AlbumRepository class.
 from typing import Union, List, Optional
 import psycopg
 from psycopg_pool import ConnectionPool
-from models.album import Album
+from chinook_pydantic_repository.models.album import Album
 from .base import BasePgRepository
-from database.session import DatabasePoolManager
+from chinook_pydantic_repository.database.session import DatabasePoolManager
 
 class AlbumRepository(BasePgRepository[Album]):
     """

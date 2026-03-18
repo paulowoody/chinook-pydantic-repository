@@ -27,8 +27,8 @@ This repository overrides standard behavior to handle the composite primary key:
 ### Example Usage
 
 ```python
-from database import DatabasePoolManager
-from repository import PlaylistTrackRepository
+from chinook_pydantic_repository.database import DatabasePoolManager
+from chinook_pydantic_repository.repository import PlaylistTrackRepository
 
 pool = DatabasePoolManager.get_instance(DB_URL)
 repo = PlaylistTrackRepository(pool)

@@ -20,8 +20,8 @@ The `Playlist` model represents a user-defined collection of tracks.
 ### Example Usage
 
 ```python
-from database import DatabasePoolManager
-from repository import PlaylistRepository
+from chinook_pydantic_repository.database import DatabasePoolManager
+from chinook_pydantic_repository.repository import PlaylistRepository
 
 pool = DatabasePoolManager.get_instance(DB_URL)
 repo = PlaylistRepository(pool)

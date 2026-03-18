@@ -15,7 +15,7 @@ Before diving into the implementation, it's important to understand the core con
 
 ## ReadOnlyRepository (Protocol)
 
-The `ReadOnlyRepository` is a structural protocol located in `repository/base.py`. It defines a clear contract for any repository that can read data from the database.
+The `ReadOnlyRepository` is a structural protocol located in `src/chinook_pydantic_repository/repository/base.py`. It defines a clear contract for any repository that can read data from the database.
 
 ### The Contract
 

@@ -28,9 +28,9 @@ In simple terms, this project is a **fast and well-organized "bridge"** that let
 
 The project is strictly organized to maintain a clean separation of concerns:
 
-- **`models/` (Data Layer)**: Pure Pydantic models representing the database schema. These are "Plain Old Data" objects with no knowledge of the database or connection logic.
-- **`repository/` (Data Access Layer)**: Object-oriented abstraction for database operations. Repositories handle the SQL logic and map results to Pydantic models. They support both managed pooling and manual connection injection (useful for transactions).
-- **`database/` (Infrastructure Layer)**: Manages the low-level database lifecycle, including connection pooling via `psycopg-pool`.
+- **`src/chinook_pydantic_repository/models/` (Data Layer)**: Pure Pydantic models representing the database schema. These are "Plain Old Data" objects with no knowledge of the database or connection logic.
+- **`src/chinook_pydantic_repository/repository/` (Data Access Layer)**: Object-oriented abstraction for database operations. Repositories handle the SQL logic and map results to Pydantic models. They support both managed pooling and manual connection injection (useful for transactions).
+- **`src/chinook_pydantic_repository/database/` (Infrastructure Layer)**: Manages the low-level database lifecycle, including connection pooling via `psycopg-pool`.
 
 ## Prerequisites
 
@@ -92,8 +92,7 @@ Demonstrates professional-grade usage with a managed connection pool. This scrip
 ### Connection Pooling & Repositories
 
 ```python
-from database import DatabasePoolManager
-from repository import ArtistRepository, AlbumRepository
+from chinook_pydantic_repository import DatabasePoolManager, ArtistRepository, AlbumRepository
 
 # 1. Initialize the global pool
 pool = DatabasePoolManager("postgresql://user:pass@host/db")

@@ -32,8 +32,8 @@ In addition to standard `get_by_id` and `get_all`, `AlbumRepository` includes:
 ### Example Usage
 
 ```python
-from database import DatabasePoolManager
-from repository import AlbumRepository
+from chinook_pydantic_repository.database import DatabasePoolManager
+from chinook_pydantic_repository.repository import AlbumRepository
 
 pool = DatabasePoolManager.get_instance(DB_URL)
 repo = AlbumRepository(pool)

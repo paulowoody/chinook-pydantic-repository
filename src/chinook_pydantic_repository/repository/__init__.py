@@ -2,7 +2,7 @@
 Package for database repository implementations.
 
 This `__init__.py` re-exports all concrete repository classes to provide 
-a flat import space (e.g., `from repository import ArtistRepository`).
+a flat import space (e.g., `from chinook_pydantic_repository.repository import ArtistRepository`).
 """
 
 from .album import AlbumRepository
@@ -25,7 +25,7 @@ from .track import TrackRepository
 # - Explicit API: It clearly marks which repositories are intended for 
 #   external use.
 # - Clean Exports: It prevents internal/utility imports (like `from .base ...`) 
-#   from being exported when a user runs `from repository import *`.
+#   from being exported when a user runs `from chinook_pydantic_repository.repository import *`.
 # - Tooling Support: IDEs and linters use `__all__` to provide better 
 #   navigation and to prevent "imported but unused" warnings for re-exports.
 __all__ = [

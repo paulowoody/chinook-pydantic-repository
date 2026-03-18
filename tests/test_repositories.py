@@ -3,13 +3,13 @@ from unittest.mock import MagicMock, patch
 from decimal import Decimal
 from datetime import datetime
 
-from repository import (
+from chinook_pydantic_repository.repository import (
     ArtistRepository,
     AlbumRepository,
     PlaylistTrackRepository,
     InvoiceRepository
 )
-from models import Artist, Album, PlaylistTrack, Invoice
+from chinook_pydantic_repository.models import Artist, Album, PlaylistTrack, Invoice
 
 # Dummy connection string for testing
 TEST_DB_URL = "postgresql://user:pass@localhost:5432/testdb"
@@ -21,7 +21,7 @@ def mock_cursor():
     database connection and cursor.
     """
     # NOTE: We now patch the class where it's DEFINED or where it's USED in repository.base
-    with patch("repository.base.DatabasePoolManager") as mock_pool_mgr_cls:
+    with patch("chinook_pydantic_repository.repository.base.DatabasePoolManager") as mock_pool_mgr_cls:
         # Mock the DatabasePoolManager instance
         mock_pool_mgr = MagicMock()
         mock_pool_mgr_cls.get_instance.return_value = mock_pool_mgr
@@ -152,7 +152,7 @@ def test_playlist_track_repository_get_by_composite_id(mock_cursor):
 def test_playlist_track_repository_get_by_id_raises_error():
     """Verify that calling get_by_id on a composite key table raises an exception."""
     # We still need to mock DatabasePoolManager because the constructor calls get_instance
-    with patch("repository.base.DatabasePoolManager"):
+    with patch("chinook_pydantic_repository.repository.base.DatabasePoolManager"):
         repo = PlaylistTrackRepository(TEST_DB_URL)
         
         with pytest.raises(NotImplementedError) as exc_info:

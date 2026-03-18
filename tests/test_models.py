@@ -3,7 +3,7 @@ from datetime import datetime
 from decimal import Decimal
 from pydantic import ValidationError
 
-from models import (
+from chinook_pydantic_repository.models import (
     Artist, Album, Track, Invoice, InvoiceLine, Customer, 
     Employee, Genre, MediaType, Playlist, PlaylistTrack, ArtistDocs
 )

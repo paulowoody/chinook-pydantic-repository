@@ -5,9 +5,9 @@ This module defines the PlaylistTrackRepository class.
 from typing import Optional, Union
 import psycopg
 from psycopg_pool import ConnectionPool
-from models.playlist_track import PlaylistTrack
+from chinook_pydantic_repository.models.playlist_track import PlaylistTrack
 from .base import BasePgRepository
-from database.session import DatabasePoolManager
+from chinook_pydantic_repository.database.session import DatabasePoolManager
 
 class PlaylistTrackRepository(BasePgRepository[PlaylistTrack]):
     """

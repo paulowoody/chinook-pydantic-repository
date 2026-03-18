@@ -4,9 +4,9 @@ This module defines the GenreRepository class.
 
 from typing import Union
 from psycopg_pool import ConnectionPool
-from models.genre import Genre
+from chinook_pydantic_repository.models.genre import Genre
 from .base import BasePgRepository
-from database.session import DatabasePoolManager
+from chinook_pydantic_repository.database.session import DatabasePoolManager
 
 class GenreRepository(BasePgRepository[Genre]):
     """

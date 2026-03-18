@@ -4,9 +4,9 @@ This module defines the ArtistDocsRepository class.
 
 from typing import Union
 from psycopg_pool import ConnectionPool
-from models.artist_docs import ArtistDocs
+from chinook_pydantic_repository.models.artist_docs import ArtistDocs
 from .base import BasePgRepository
-from database.session import DatabasePoolManager
+from chinook_pydantic_repository.database.session import DatabasePoolManager
 
 class ArtistDocsRepository(BasePgRepository[ArtistDocs]):
     """

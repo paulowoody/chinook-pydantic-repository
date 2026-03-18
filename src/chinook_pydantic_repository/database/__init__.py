@@ -11,7 +11,7 @@ from .session import DatabasePoolManager
 #
 # By exporting `DatabasePoolManager` here, we allow users to import it 
 # directly from the package root:
-# `from database import DatabasePoolManager`
+# `from chinook_pydantic_repository.database import DatabasePoolManager`
 # 
 # This keeps the consumer's code cleaner by hiding the internal module 
 # structure (`.session`).

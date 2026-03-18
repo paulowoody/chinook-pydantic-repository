@@ -33,8 +33,8 @@ The `Employee` model represents an employee in the music database.
 ### Example Usage
 
 ```python
-from database import DatabasePoolManager
-from repository import EmployeeRepository
+from chinook_pydantic_repository.database import DatabasePoolManager
+from chinook_pydantic_repository.repository import EmployeeRepository
 
 pool = DatabasePoolManager.get_instance(DB_URL)
 repo = EmployeeRepository(pool)

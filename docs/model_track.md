@@ -27,8 +27,8 @@ The `Track` model represents an individual song or audio/video file.
 ### Example Usage
 
 ```python
-from database import DatabasePoolManager
-from repository import TrackRepository
+from chinook_pydantic_repository.database import DatabasePoolManager
+from chinook_pydantic_repository.repository import TrackRepository
 
 pool = DatabasePoolManager.get_instance(DB_URL)
 repo = TrackRepository(pool)

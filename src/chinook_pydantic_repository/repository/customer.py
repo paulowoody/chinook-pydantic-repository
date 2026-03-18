@@ -4,9 +4,9 @@ This module defines the CustomerRepository class.
 
 from typing import Union
 from psycopg_pool import ConnectionPool
-from models.customer import Customer
+from chinook_pydantic_repository.models.customer import Customer
 from .base import BasePgRepository
-from database.session import DatabasePoolManager
+from chinook_pydantic_repository.database.session import DatabasePoolManager
 
 class CustomerRepository(BasePgRepository[Customer]):
     """

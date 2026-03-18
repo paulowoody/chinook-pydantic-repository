@@ -10,8 +10,7 @@ This script provides empirical evidence that the pool:
 import os
 import threading
 import time
-from database.session import DatabasePoolManager
-from repository import ArtistRepository
+from chinook_pydantic_repository import DatabasePoolManager, ArtistRepository
 
 # Database URL is pulled from the environment
 DB_URL = os.environ.get("DATABASE_URL")

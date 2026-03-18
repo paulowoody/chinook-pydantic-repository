@@ -10,7 +10,7 @@ This script shows how to:
 
 import os
 import psycopg
-from repository import ArtistRepository, AlbumRepository, TrackRepository
+from chinook_pydantic_repository import ArtistRepository, AlbumRepository, TrackRepository
 
 # The DATABASE_URL should be set in your .env file or environment.
 # UV will load this if you use the --env-file flag or set UV_ENV_FILE.

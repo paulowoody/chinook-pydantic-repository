@@ -23,8 +23,8 @@ The `InvoiceLine` model represents an individual line item on a customer invoice
 ### Example Usage
 
 ```python
-from database import DatabasePoolManager
-from repository import InvoiceLineRepository
+from chinook_pydantic_repository.database import DatabasePoolManager
+from chinook_pydantic_repository.repository import InvoiceLineRepository
 
 pool = DatabasePoolManager.get_instance(DB_URL)
 repo = InvoiceLineRepository(pool)

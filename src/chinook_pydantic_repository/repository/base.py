@@ -10,7 +10,7 @@ from contextlib import nullcontext
 from pydantic import BaseModel
 import psycopg
 from psycopg_pool import ConnectionPool
-from database.session import DatabasePoolManager
+from chinook_pydantic_repository.database.session import DatabasePoolManager
 
 # Type variable for the Protocol (Covariant for read operations)
 T_co = TypeVar('T_co', bound=BaseModel, covariant=True)

@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import MagicMock, patch
-from database.session import DatabasePoolManager
+from chinook_pydantic_repository.database.session import DatabasePoolManager
 
 # Dummy connection string
 TEST_DB_URL = "postgresql://user:pass@localhost:5432/testdb"
@@ -13,7 +13,7 @@ def reset_singleton():
 
 def test_pool_manager_singleton():
     """Verify that DatabasePoolManager follows the singleton pattern."""
-    with patch("database.session.ConnectionPool"):
+    with patch("chinook_pydantic_repository.database.session.ConnectionPool"):
         manager1 = DatabasePoolManager.get_instance(TEST_DB_URL)
         manager2 = DatabasePoolManager.get_instance(TEST_DB_URL)
         
@@ -21,7 +21,7 @@ def test_pool_manager_singleton():
 
 def test_pool_manager_initialization():
     """Verify that the pool is initialized with correct parameters."""
-    with patch("database.session.ConnectionPool") as mock_pool_cls:
+    with patch("chinook_pydantic_repository.database.session.ConnectionPool") as mock_pool_cls:
         manager = DatabasePoolManager(TEST_DB_URL, min_size=2, max_size=5)
         
         mock_pool_cls.assert_called_once()
@@ -36,13 +36,13 @@ def test_pool_manager_jdbc_strip():
     jdbc_url = "jdbc:postgresql://localhost:5432/db"
     expected_url = "postgresql://localhost:5432/db"
     
-    with patch("database.session.ConnectionPool") as mock_pool_cls:
+    with patch("chinook_pydantic_repository.database.session.ConnectionPool") as mock_pool_cls:
         DatabasePoolManager(jdbc_url)
         assert mock_pool_cls.call_args[0][0] == expected_url
 
 def test_pool_manager_connection_call():
     """Verify that connection() calls the underlying pool's connection method."""
-    with patch("database.session.ConnectionPool") as mock_pool_cls:
+    with patch("chinook_pydantic_repository.database.session.ConnectionPool") as mock_pool_cls:
         mock_pool_instance = mock_pool_cls.return_value
         manager = DatabasePoolManager(TEST_DB_URL)
         
@@ -51,7 +51,7 @@ def test_pool_manager_connection_call():
 
 def test_pool_manager_close():
     """Verify that close() closes the underlying pool."""
-    with patch("database.session.ConnectionPool") as mock_pool_cls:
+    with patch("chinook_pydantic_repository.database.session.ConnectionPool") as mock_pool_cls:
         mock_pool_instance = mock_pool_cls.return_value
         manager = DatabasePoolManager(TEST_DB_URL)
         

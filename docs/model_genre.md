@@ -20,8 +20,8 @@ The `Genre` model represents a music genre in the database.
 ### Example Usage
 
 ```python
-from database import DatabasePoolManager
-from repository import GenreRepository
+from chinook_pydantic_repository.database import DatabasePoolManager
+from chinook_pydantic_repository.repository import GenreRepository
 
 pool = DatabasePoolManager.get_instance(DB_URL)
 repo = GenreRepository(pool)

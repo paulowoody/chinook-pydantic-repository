@@ -4,9 +4,9 @@ This module defines the MediaTypeRepository class.
 
 from typing import Union
 from psycopg_pool import ConnectionPool
-from models.media_type import MediaType
+from chinook_pydantic_repository.models.media_type import MediaType
 from .base import BasePgRepository
-from database.session import DatabasePoolManager
+from chinook_pydantic_repository.database.session import DatabasePoolManager
 
 class MediaTypeRepository(BasePgRepository[MediaType]):
     """

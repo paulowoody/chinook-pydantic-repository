@@ -31,8 +31,8 @@ The `Customer` model represents a customer in the music database.
 ### Example Usage
 
 ```python
-from database import DatabasePoolManager
-from repository import CustomerRepository
+from chinook_pydantic_repository.database import DatabasePoolManager
+from chinook_pydantic_repository.repository import CustomerRepository
 
 pool = DatabasePoolManager.get_instance(DB_URL)
 repo = CustomerRepository(pool)

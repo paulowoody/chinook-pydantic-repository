@@ -8,7 +8,7 @@ This document explains the low-level database connection and session management 
 
 ## DatabasePoolManager
 
-The `DatabasePoolManager` is a singleton class located in `database/session.py`. It is responsible for managing a connection pool using `psycopg-pool`.
+The `DatabasePoolManager` is a singleton class located in `src/chinook_pydantic_repository/database/session.py`. It is responsible for managing a connection pool using `psycopg-pool`.
 
 ### Responsibilities
 
@@ -23,7 +23,7 @@ The `DatabasePoolManager` is a singleton class located in `database/session.py`.
 The pool manager is typically initialized once at the start of the application:
 
 ```python
-from database import DatabasePoolManager
+from chinook_pydantic_repository.database import DatabasePoolManager
 
 DB_URL = "postgresql://user:pass@host:5432/db"
 pool_manager = DatabasePoolManager.get_instance(DB_URL)
