@@ -13,9 +13,6 @@ dependencies = [
     "pydantic>=2.12.5",
 ]
 
-[project.urls]
-Repository = "https://github.com/paulowoody/chinook-pydantic-repository"
-
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 
@@ -26,6 +23,15 @@ dev = [
 
 [tool.uv]
 managed = true
+
+[[tool.uv.index]]
+name = "cloudsmith"
+url = "https://dl.cloudsmith.io/public/paulowoody/chinook-pydantic-repository/python/simple/"
+publish-url = "https://python.cloudsmith.io/paulowoody/chinook-pydantic-repository/"
+explicit = true
+
+[project.urls]
+repository = "https://github.com/paulowoody/chinook-pydantic-repository"
 
 [build-system]
 requires = ["uv_build>=0.10.6,<0.11.0"]

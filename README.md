@@ -36,6 +36,7 @@ The project is strictly organized to maintain a clean separation of concerns:
 
 - **Python 3.12** or higher.
 - [uv](https://github.com/astral-sh/uv) for dependency management.
+- **GNU Make** for build automation.
 - **A Database Server** (for example, PostgreSQL).
 
 ## 🚀 Getting Started
@@ -62,28 +63,77 @@ This project uses the classic **Chinook Sample Database**. To set it up with Pos
    ```
 
 2. **Configure Environment:**
-   Copy the example environment file and update it with your database credentials:
+   Copy the example environment file and update it with your **database credentials** and (optionally) Cloudsmith tokens for publishing:
    ```bash
    cp .env-example .env
    ```
-   Edit the `.env` file to set your `DATABASE_URL`.
+   **CRITICAL:** Edit the `.env` file to set your `DATABASE_URL` (e.g., `postgresql://user:password@localhost:5432/chinook`).
 
 3. **Run tests:**
    ```bash
    uv run pytest -v
    ```
 
+## 🛠️ Build & Development
+
+This project uses a `Makefile` to simplify common development tasks.
+
+- **Build the package:**
+  ```bash
+  make build
+  ```
+- **Clean build artifacts:**
+  ```bash
+  make clean
+  ```
+
+### Cloudsmith Authentication
+
+If you need to access or publish to the private Cloudsmith repository, you should authenticate using `uv`. This ensures your credentials are stored securely and used automatically by `uv sync` and `uv publish`.
+
+1. **Login to the Cloudsmith index:**
+   ```bash
+   uv auth login https://dl.cloudsmith.io/public/paulowoody/chinook-pydantic-repository/python/simple/ --username token --password <YOUR_API_KEY>
+   ```
+
+2. **How it works:**
+   Running the command above creates (or updates) a `credentials.toml` file in your local `uv` configuration directory:
+   - **Linux/macOS:** `~/.local/share/uv/credentials/credentials.toml`
+   - **Windows:** `%LOCALAPPDATA%\uv\credentials\credentials.toml`
+
+   This file contains your encrypted/stored credentials, allowing `uv` to authenticate with the repository without needing to manually set environment variables every time.
+
+3. **Publish to Cloudsmith (Requires Credentials):**
+  ```bash
+  make publish
+  ```
+  *Note: Ensure your `.env` contains the required `CLOUDSMITH_API_KEY` and `UV_PUBLISH_PASSWORD` for this step.*
+
 ## 🔍 Exploration & Examples
 
-The project includes two detailed example scripts to help you understand the architecture:
+The project includes a `samples/` sub-project with detailed example scripts. This folder is configured as a **standalone project** to demonstrate how to consume the library from a remote repository (Cloudsmith) using `uv`.
 
-### 1. Basic Repository Usage (`db_example.py`)
-Demonstrates the simplest way to use repositories. In this mode, each repository call opens and closes its own connection.
-- **Run it:** `uv run --env-file .env db_example.py`
+### Running the Samples
 
-### 2. Advanced Pooling & Verification (`db_pool_example.py`)
-Demonstrates professional-grade usage with a managed connection pool. This script provides **empirical evidence** of pooling by running concurrent workers and showing how database connections (PIDs) are reused.
-- **Run it:** `uv run --env-file .env db_pool_example.py`
+1.  **Navigate to the samples directory:**
+    ```bash
+    cd samples
+    ```
+2.  **Ensure a .env exists with your database URL:**
+    ```bash
+    cp .env-example .env
+    # Edit .env to set DATABASE_URL
+    ```
+3.  **Run Basic Repository Usage (`db_example.py`):**
+    Demonstrates simple repository calls where each call opens and closes its own connection.
+    ```bash
+    uv run --env-file .env db_example.py
+    ```
+4.  **Run Advanced Pooling (`db_pool_example.py`):**
+    Demonstrates professional-grade usage with a managed connection pool and concurrent workers.
+    ```bash
+    uv run --env-file .env db_pool_example.py
+    ```
 
 ---
 

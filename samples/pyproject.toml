@@ -1,0 +1,22 @@
+[project]
+name = "chinook-samples"
+version = "0.1.0"
+description = "Samples for chinook-pydantic-repository"
+authors = [
+    { name = "Paul Wood", email = "paulowoody@users.noreply.github.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "chinook-pydantic-repository",
+]
+
+[tool.uv]
+managed = true
+
+[[tool.uv.index]]
+name = "cloudsmith"
+url = "https://dl.cloudsmith.io/public/paulowoody/chinook-pydantic-repository/python/simple/"
+explicit = false
+
+[tool.uv.sources]
+chinook-pydantic-repository = { index = "cloudsmith" }
