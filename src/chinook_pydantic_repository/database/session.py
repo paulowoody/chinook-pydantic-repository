@@ -2,8 +2,8 @@
 Infrastructure for database session and pool management.
 """
 
+from __future__ import annotations
 from typing import Optional
-import psycopg
 from psycopg_pool import ConnectionPool
 from psycopg.rows import dict_row
 
@@ -15,7 +15,7 @@ class DatabasePoolManager:
     This class abstracts the pool creation, stripping unnecessary prefixes (like 'jdbc:')
     and ensuring rows are returned as dictionaries for Pydantic mapping.
     """
-    _instance: Optional['DatabasePoolManager'] = None
+    _instance: Optional[DatabasePoolManager] = None
 
     def __init__(self, db_url: str, min_size: int = 1, max_size: int = 10):
         """
@@ -40,7 +40,7 @@ class DatabasePoolManager:
         )
 
     @classmethod
-    def get_instance(cls, db_url: str) -> 'DatabasePoolManager':
+    def get_instance(cls, db_url: str) -> DatabasePoolManager:
         """Static method to get the singleton instance of the manager."""
         if cls._instance is None:
             cls._instance = cls(db_url)
