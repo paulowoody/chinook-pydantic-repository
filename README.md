@@ -35,9 +35,20 @@ The project is strictly organized to maintain a clean separation of concerns:
 ## Prerequisites
 
 - **Python 3.12** or higher.
-- [uv](https://github.com/astral-sh/uv) for dependency management.
+- [uv](https://github.com/astral-sh/uv) for dependency management and tool isolation.
 - **GNU Make** for build automation.
 - **A Database Server** (for example, PostgreSQL).
+
+### Required Tools
+For building and publishing, you need the following tools installed (recommended via `uv tool`):
+
+```bash
+# For signing artifacts
+uv tool install sigstore
+
+# For publishing and republishing to Cloudsmith
+uv tool install cloudsmith-cli
+```
 
 ## 🚀 Getting Started
 
@@ -82,32 +93,60 @@ This project uses a `Makefile` to simplify common development tasks.
   ```bash
   make build
   ```
+- **Sign the artifacts:**
+  ```bash
+  make sign
+  ```
+- **Publish to Cloudsmith:**
+  ```bash
+  make publish
+  ```
 - **Clean build artifacts:**
   ```bash
   make clean
   ```
 
+### Linting & Formatting
+
+The project uses **Ruff** for extremely fast linting and formatting, with configuration managed in `pyproject.toml`.
+
+- **Check for linting issues:**
+  ```bash
+  uv run ruff check .
+  ```
+- **Automatically fix linting issues:**
+  ```bash
+  uv run ruff check . --fix
+  ```
+- **Format code:**
+  ```bash
+  uv run ruff format .
+  ```
+
+### Development Workflow & Versioning
+
+The project follows a **Development Release** strategy (PEP 440). During active development, versions are suffixed with `.devN` (e.g., `0.1.0.dev1`).
+
+1. **Increment Version:** Update `version` in `pyproject.toml` (e.g., `0.1.0.dev2`).
+2. **Push "Snapshots":** The `make publish` command uses `cloudsmith push --republish`. This allows you to overwrite an existing dev version on the repository without bumping the version number if you are iterating on the same "snapshot".
+
 ### Cloudsmith Authentication
 
-If you need to access or publish to the private Cloudsmith repository, you should authenticate using `uv`. This ensures your credentials are stored securely and used automatically by `uv sync` and `uv publish`.
+If you need to access or publish to the private Cloudsmith repository, you should authenticate using `uv` and ensure your API key is available in your environment.
 
 1. **Login to the Cloudsmith index:**
    ```bash
    uv auth login https://dl.cloudsmith.io/public/paulowoody/chinook-pydantic-repository/python/simple/ --username token --password <YOUR_API_KEY>
    ```
 
-2. **How it works:**
-   Running the command above creates (or updates) a `credentials.toml` file in your local `uv` configuration directory:
-   - **Linux/macOS:** `~/.local/share/uv/credentials/credentials.toml`
-   - **Windows:** `%LOCALAPPDATA%\uv\credentials\credentials.toml`
+2. **Configure Environment:**
+   Ensure your `.env` file contains the `UV_PUBLISH_TOKEN` (which is your Cloudsmith API Key):
+   ```bash
+   UV_PUBLISH_TOKEN=your_cloudsmith_api_key_here
+   ```
 
-   This file contains your encrypted/stored credentials, allowing `uv` to authenticate with the repository without needing to manually set environment variables every time.
-
-3. **Publish to Cloudsmith (Requires Credentials):**
-  ```bash
-  make publish
-  ```
-  *Note: Ensure your `.env` contains the required `CLOUDSMITH_API_KEY` and `UV_PUBLISH_PASSWORD` for this step.*
+3. **How it works:**
+   `uv` handles dependency resolution, while `cloudsmith-cli` handles the actual upload to ensure support for republishing/overwriting development builds.
 
 ## 🔍 Exploration & Examples
 

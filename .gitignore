@@ -16,5 +16,9 @@ wheels/
 .env
 
 # macOS
-.DS_Store/
+.DS_Store
+
+# Database artifacts
+db/
+*.sql
 

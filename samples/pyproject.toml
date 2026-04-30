@@ -1,13 +1,13 @@
 [project]
 name = "chinook-samples"
-version = "0.1.0"
+version = "0.1.0.dev1"
 description = "Samples for chinook-pydantic-repository"
 authors = [
     { name = "Paul Wood", email = "paulowoody@users.noreply.github.com" }
 ]
 requires-python = ">=3.12"
 dependencies = [
-    "chinook-pydantic-repository",
+    "chinook-pydantic-repository>=0.1.0.dev0",
 ]
 
 [tool.uv]

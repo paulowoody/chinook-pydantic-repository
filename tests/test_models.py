@@ -1,12 +1,24 @@
-import pytest
 from datetime import datetime
 from decimal import Decimal
+
+import pytest
 from pydantic import ValidationError
 
 from chinook_pydantic_repository.models import (
-    Artist, Album, Track, Invoice, InvoiceLine, Customer, 
-    Employee, Genre, MediaType, Playlist, PlaylistTrack, ArtistDocs
+    Album,
+    Artist,
+    ArtistDocs,
+    Customer,
+    Employee,
+    Genre,
+    Invoice,
+    InvoiceLine,
+    MediaType,
+    Playlist,
+    PlaylistTrack,
+    Track,
 )
+
 
 def test_artist_creation_and_validation():
     # Valid Artist
@@ -22,7 +34,9 @@ def test_artist_creation_and_validation():
 
 
 def test_album_creation():
-    album = Album(album_id=1, title="For Those About To Rock We Salute You", artist_id=1)
+    album = Album(
+        album_id=1, title="For Those About To Rock We Salute You", artist_id=1
+    )
     assert album.album_id == 1
     assert album.title == "For Those About To Rock We Salute You"
     assert album.artist_id == 1
@@ -50,12 +64,13 @@ def test_track_creation():
         composer="Angus Young, Malcolm Young, Brian Johnson",
         milliseconds=343719,
         bytes=11170334,
-        unit_price=Decimal("0.99")
+        unit_price=Decimal("0.99"),
     )
     assert track.track_id == 1
     assert track.name == "For Those About To Rock (We Salute You)"
     assert track.album_id == 1
     assert track.unit_price == Decimal("0.99")
+
 
 def test_track_validation_errors():
     # Test missing required field (milliseconds is required)
@@ -64,7 +79,7 @@ def test_track_validation_errors():
             track_id=1,
             name="Missing Milliseconds",
             media_type_id=1,
-            unit_price=Decimal("0.99")
+            unit_price=Decimal("0.99"),
         )
     assert "Field required" in str(exc_info.value)
     assert "milliseconds" in str(exc_info.value)
@@ -72,11 +87,11 @@ def test_track_validation_errors():
     # Test type coercion failure (cannot convert "abc" to integer)
     with pytest.raises(ValidationError) as exc_info_type:
         Track(
-            track_id="abc", # Invalid integer
+            track_id="abc",  # Invalid integer
             name="Bad Track ID",
             media_type_id=1,
             milliseconds=3000,
-            unit_price=Decimal("0.99")
+            unit_price=Decimal("0.99"),
         )
     assert "Input should be a valid integer" in str(exc_info_type.value)
 
@@ -100,7 +115,7 @@ def test_employee_creation():
         first_name="Andrew",
         title="General Manager",
         hire_date=datetime(2002, 8, 14),
-        email="andrew@chinookcorp.com"
+        email="andrew@chinookcorp.com",
     )
     assert employee.employee_id == 1
     assert employee.last_name == "Adams"
@@ -115,7 +130,7 @@ def test_customer_creation():
         last_name="Gonçalves",
         company="Embraer - Empresa Brasileira de Aeronáutica S.A.",
         email="luisg@embraer.com.br",
-        support_rep_id=1
+        support_rep_id=1,
     )
     assert customer.customer_id == 1
     assert customer.first_name == "Luís"
@@ -130,7 +145,7 @@ def test_invoice_creation():
         billing_address="Av. Brigadeiro Faria Lima, 2170",
         billing_city="São José dos Campos",
         billing_country="Brazil",
-        total=Decimal("1.98")
+        total=Decimal("1.98"),
     )
     assert invoice.invoice_id == 1
     assert invoice.customer_id == 1
@@ -144,16 +159,16 @@ def test_invoice_line_creation():
         invoice_id=1,
         track_id=1,
         unit_price=Decimal("0.99"),
-        quantity=2
+        quantity=2,
     )
     assert invoice_line.invoice_line_id == 1
     assert invoice_line.unit_price == Decimal("0.99")
     assert invoice_line.quantity == 2
 
+
 def test_artist_docs_creation():
     doc = ArtistDocs(
-        id=1,
-        body={"bio": "Australian rock band formed in Sydney in 1973"}
+        id=1, body={"bio": "Australian rock band formed in Sydney in 1973"}
     )
     assert doc.id == 1
     assert doc.body["bio"] == "Australian rock band formed in Sydney in 1973"

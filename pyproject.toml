@@ -1,6 +1,6 @@
 [project]
 name = "chinook-pydantic-repository"
-version = "0.1.0"
+version = "0.1.0.dev1"
 description = "A clean three-tier architecture for interacting with the Chinook database using Python, Pydantic, and the Repository Pattern."
 readme = "README.md"
 authors = [
@@ -8,9 +8,11 @@ authors = [
 ]
 requires-python = ">=3.12"
 dependencies = [
+    "black>=26.3.1",
     "psycopg-pool>=3.3.0",
     "psycopg[binary]>=3.3.3",
-    "pydantic>=2.12.5",
+    "pydantic==2.13.3",
+    "pytest==9.0.3",
 ]
 
 [tool.pytest.ini_options]
@@ -34,6 +36,48 @@ explicit = true
 repository = "https://github.com/paulowoody/chinook-pydantic-repository"
 
 [build-system]
-requires = ["uv_build>=0.10.6,<0.11.0"]
+requires = ["uv_build>=0.10.6,<0.12.0"]
 build-backend = "uv_build"
 
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+extend-exclude = ["build", "dist", ".venv"]
+
+[tool.ruff.lint]
+# Enable all the useful rule sets
+select = [
+    "E", # pycodestyle errors
+    "F", # pyflakes
+    "W", # pycodestyle warnings
+    "I", # isort
+    "UP", # pyupgrade
+    "N", # pep8-naming
+    "B", # flake8-bugbear
+    "A", # flake8-builtins
+    "COM", # flake8-commas
+    "C4", # flake8-comprehensions
+    "DTZ", # flake8-datetimez
+    "TID", # flake8-tidy-imports
+    "RUF", # Ruff-specific rules
+]
+
+# Rules you probably want to ignore
+ignore = [
+    "E501", # line length (formatter handles this)
+    "COM812" # isort‑style “trailing comma” rule that conflicts with Ruff’s formatter
+]
+
+# Auto-fix behaviour (PyCharm plugin uses this)
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101", "D"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+docstring-code-format = true

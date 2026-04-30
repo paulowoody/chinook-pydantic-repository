@@ -1,7 +1,7 @@
 """
 Package for data models representing the database schema.
 
-This `__init__.py` re-exports all individual Pydantic models to provide 
+This `__init__.py` re-exports all individual Pydantic models to provide
 a flat import space (e.g., `from chinook_pydantic_repository.models import Artist`).
 """
 
@@ -18,13 +18,13 @@ from .playlist import Playlist
 from .playlist_track import PlaylistTrack
 from .track import Track
 
-# The `__all__` list is a special Python variable that defines the "public API" 
-# of this package. 
-# 
-# 1. It explicitly tells other developers which symbols are intended to be 
+# The `__all__` list is a special Python variable that defines the "public API"
+# of this package.
+#
+# 1. It explicitly tells other developers which symbols are intended to be
 #    exported and used outside of this directory.
 # 2. It controls what is imported when a user runs `from chinook_pydantic_repository.models import *`.
-# 3. It helps IDEs (like PyCharm or VS Code) and static analysis tools 
+# 3. It helps IDEs (like PyCharm or VS Code) and static analysis tools
 #    provide better autocomplete and identify "unused" imports correctly.
 __all__ = [
     "Album",

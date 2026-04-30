@@ -9,12 +9,19 @@ This script shows how to:
 """
 
 import os
+
 import psycopg
-from chinook_pydantic_repository import ArtistRepository, AlbumRepository, TrackRepository
+
+from chinook_pydantic_repository import (
+    AlbumRepository,
+    ArtistRepository,
+    TrackRepository,
+)
 
 # The DATABASE_URL should be set in your .env file or environment.
 # UV will load this if you use the --env-file flag or set UV_ENV_FILE.
 DB_URL = os.environ.get("DATABASE_URL")
+
 
 def main():
     # Safety check: Ensure the database URL is provided
@@ -47,18 +54,21 @@ def main():
         tracks = track_repo.get_all(limit=3)
         for track in tracks:
             print(f"Loaded Track Model: '{track.name}' priced at ${track.unit_price}")
-            
+
         # --- Example 2: Fetching a single record ---
         print("\n--- Fetching a Single Artist by ID ---")
         single_artist = artist_repo.get_by_id(1)
         if single_artist:
             print(f"Found specific artist: {single_artist.name}")
-            
+
     except psycopg.OperationalError as e:
         # Handle connection failures gracefully
         print(f"Could not connect to the database at {DB_URL}")
         print(f"Error details: {e}")
-        print("\nPlease ensure your PostgreSQL server is running and the credentials are correct.")
+        print(
+            "\nPlease ensure your PostgreSQL server is running and the credentials are correct."
+        )
+
 
 if __name__ == "__main__":
     main()

@@ -1,47 +1,63 @@
 """
 Core repository abstractions for PostgreSQL database access.
 
-This module defines the protocol and base class for all repositories, supporting 
+This module defines the protocol and base class for all repositories, supporting
 both pooled connections and explicit connection injection.
 """
 
-from typing import TypeVar, List, Optional, Protocol, Any, Generic, Union
 from contextlib import nullcontext
-from pydantic import BaseModel
+from typing import Any, Generic, Protocol, TypeVar
+
 import psycopg
 from psycopg_pool import ConnectionPool
+from pydantic import BaseModel
+
 from chinook_pydantic_repository.database.session import DatabasePoolManager
 
 # Type variable for the Protocol (Covariant for read operations)
-T_co = TypeVar('T_co', bound=BaseModel, covariant=True)
+T_co = TypeVar("T_co", bound=BaseModel, covariant=True)
+
 
 class ReadOnlyRepository(Protocol[T_co]):
     """
     Structural interface defining read-only database operations.
     """
-    def get_by_id(self, id_value: int, conn: Optional[psycopg.Connection] = None) -> Optional[T_co]:
+
+    def get_by_id(
+        self, id_value: int, conn: psycopg.Connection | None = None
+    ) -> T_co | None:
         """Fetch a single record by its primary key."""
         ...
 
-    def get_all(self, limit: int = 100, offset: int = 0, conn: Optional[psycopg.Connection] = None) -> List[T_co]:
+    def get_all(
+        self, limit: int = 100, offset: int = 0, conn: psycopg.Connection | None = None
+    ) -> list[T_co]:
         """Fetch a list of records with optional pagination."""
         ...
 
+
 # Type variable for the BasePgRepository implementation
-T = TypeVar('T', bound=BaseModel)
+T = TypeVar("T", bound=BaseModel)
+
 
 class BasePgRepository(Generic[T]):
     """
     Concrete generic base class for PostgreSQL repositories.
-    
-    Provides standard implementations for fetching data and handles the 
+
+    Provides standard implementations for fetching data and handles the
     logic for using either a managed pool or an injected connection.
     """
 
-    def __init__(self, db_url_or_pool: Union[str, ConnectionPool, DatabasePoolManager], model_class: type[T], table_name: str, primary_key: str):
+    def __init__(
+        self,
+        db_url_or_pool: str | ConnectionPool | DatabasePoolManager,
+        model_class: type[T],
+        table_name: str,
+        primary_key: str,
+    ):
         """
         Initializes the repository.
-        
+
         Args:
             db_url_or_pool: A DB URL (string), a ConnectionPool instance, or a DatabasePoolManager.
             model_class: The Pydantic model class used for mapping results.
@@ -57,29 +73,33 @@ class BasePgRepository(Generic[T]):
         self.table_name = table_name
         self.primary_key = primary_key
 
-    def _get_connection(self, conn: Optional[psycopg.Connection] = None) -> Any:
+    def _get_connection(self, conn: psycopg.Connection | None = None) -> Any:
         """
         Provides a connection context manager.
-        
-        If `conn` is provided, it returns a nullcontext that simply wraps the 
+
+        If `conn` is provided, it returns a nullcontext that simply wraps the
         provided connection (useful for sharing a connection in a transaction).
         Otherwise, it retrieves a connection from the managed pool.
         """
         if conn is not None:
             return nullcontext(conn)
-        
-        if hasattr(self.pool_manager, 'connection'):
-            return self.pool_manager.connection()
-        elif hasattr(self.pool_manager, 'pool'):
-             return self.pool_manager.pool.connection()
-        else:
-             return self.pool_manager.connection()
 
-    def get_by_id(self, id_value: int, conn: Optional[psycopg.Connection] = None) -> Optional[T]:
+        if hasattr(self.pool_manager, "connection"):
+            return self.pool_manager.connection()
+        elif hasattr(self.pool_manager, "pool"):
+            return self.pool_manager.pool.connection()
+        else:
+            return self.pool_manager.connection()
+
+    def get_by_id(
+        self, id_value: int, conn: psycopg.Connection | None = None
+    ) -> T | None:
         """Fetches a record by primary key."""
         with self._get_connection(conn) as c:
             with c.cursor() as cur:
-                query = f"SELECT * FROM {self.table_name} WHERE {self.primary_key} = %s;"
+                query = (
+                    f"SELECT * FROM {self.table_name} WHERE {self.primary_key} = %s;"
+                )
                 cur.execute(query, (id_value,))
                 row = cur.fetchone()
 
@@ -87,7 +107,9 @@ class BasePgRepository(Generic[T]):
                     return self.model_class.model_validate(row)
         return None
 
-    def get_all(self, limit: int = 100, offset: int = 0, conn: Optional[psycopg.Connection] = None) -> List[T]:
+    def get_all(
+        self, limit: int = 100, offset: int = 0, conn: psycopg.Connection | None = None
+    ) -> list[T]:
         """Fetches multiple records with pagination support."""
         with self._get_connection(conn) as c:
             with c.cursor() as cur:

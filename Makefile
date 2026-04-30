@@ -30,8 +30,9 @@ sign: build
 
 publish: sign
 	@test -n "$${UV_PUBLISH_TOKEN}" || (echo "UV_PUBLISH_TOKEN not set — source .env?"; exit 1)
-	uv publish --index cloudsmith \
-	--check-url https://dl.cloudsmith.io/public/paulowoody/chinook-pydantic-repository/python/simple/
+	for file in $(DIST_DIR)/*.whl $(DIST_DIR)/*.tar.gz; do \
+		cloudsmith push python $(CLOUDSMITH_ORG)/$(CLOUDSMITH_REPO) $$file -k $${UV_PUBLISH_TOKEN} --republish; \
+	done
 
 release: publish
 	for file in $(DIST_DIR)/*.sigstore.json; do \

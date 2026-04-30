@@ -1,7 +1,7 @@
 """
 Package for database repository implementations.
 
-This `__init__.py` re-exports all concrete repository classes to provide 
+This `__init__.py` re-exports all concrete repository classes to provide
 a flat import space (e.g., `from chinook_pydantic_repository.repository import ArtistRepository`).
 """
 
@@ -18,25 +18,25 @@ from .playlist import PlaylistRepository
 from .playlist_track import PlaylistTrackRepository
 from .track import TrackRepository
 
-# The `__all__` list is a special Python variable used to define the public 
+# The `__all__` list is a special Python variable used to define the public
 # interface (the exported symbols) of this package.
 #
 # WHY USE `__all__`?
-# - Explicit API: It clearly marks which repositories are intended for 
+# - Explicit API: It clearly marks which repositories are intended for
 #   external use.
-# - Clean Exports: It prevents internal/utility imports (like `from .base ...`) 
+# - Clean Exports: It prevents internal/utility imports (like `from .base ...`)
 #   from being exported when a user runs `from chinook_pydantic_repository.repository import *`.
-# - Tooling Support: IDEs and linters use `__all__` to provide better 
+# - Tooling Support: IDEs and linters use `__all__` to provide better
 #   navigation and to prevent "imported but unused" warnings for re-exports.
 __all__ = [
     "AlbumRepository",
-    "ArtistRepository",
     "ArtistDocsRepository",
+    "ArtistRepository",
     "CustomerRepository",
     "EmployeeRepository",
     "GenreRepository",
-    "InvoiceRepository",
     "InvoiceLineRepository",
+    "InvoiceRepository",
     "MediaTypeRepository",
     "PlaylistRepository",
     "PlaylistTrackRepository",
